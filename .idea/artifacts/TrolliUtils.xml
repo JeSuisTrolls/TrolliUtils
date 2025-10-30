@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="TrolliUtils">
+    <output-path>$PROJECT_DIR$/out/artifacts/TrolliUtils</output-path>
+    <root id="archive" name="TrolliUtils.jar">
+      <element id="module-output" name="TrolliUtils" />
+    </root>
+  </artifact>
+</component>
