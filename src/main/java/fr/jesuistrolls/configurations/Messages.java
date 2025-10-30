@@ -30,7 +30,7 @@ public enum Messages {
 
 
     private final String path;
-    private static Object value;
+    private Object value;
 
     Messages(String path) {
         this.path = path;
@@ -39,10 +39,7 @@ public enum Messages {
     public String getString() {
         return (String) value;
     }
-    public static List<String> getStringList() {
-        return (List<String>) value;
-    }
-    public static List<String> getStringList(String s) {
+    public List<String> getStringList() {
         return (List<String>) value;
     }
 
@@ -80,13 +77,16 @@ public enum Messages {
 
     public void sendReplace(CommandSender sender, String original, String replacement) {
         if (original == null || replacement == null) return;
-        String message = getString().replace(original, replacement);
-        sendBrute(sender, message);
+        String message = getString();
+        if (message != null) {
+            message = message.replace(original, replacement);
+            sendBrute(sender, message);
+        }
     }
 
     public void sendReplace(CommandSender sender, Map<String, String> replacements) {
         String message = getString();
-        if (replacements != null) {
+        if (message != null && replacements != null) {
             for (Map.Entry<String, String> entry : replacements.entrySet()) {
                 message = message.replace(entry.getKey(), entry.getValue());
             }
