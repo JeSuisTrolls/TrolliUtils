@@ -20,9 +20,11 @@ public class CommandLoader {
         }
         if (Messages.TRANSFERT_ENABLE.getBoolean()){
             plugin.getCommand("transfert").setExecutor(new TransfertCommand());
+            plugin.getCommand("transfert").setTabCompleter(new LeaderBoardRewardsCommand());
         }
         if (Messages.LEADERBOARD_ENABLE.getBoolean()){
             plugin.getCommand("leaderboardrewards").setExecutor(new LeaderBoardRewardsCommand());
+            plugin.getCommand("leaderboardrewards").setTabCompleter(new LeaderBoardRewardsCommand());
          }
     }
 }

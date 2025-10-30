@@ -34,52 +34,77 @@ public class LeaderBoardRewardsCommand implements TabExecutor {
         }
 
         String leaderboardType = args[0];
-        int leaderboardRank = Integer.parseInt(args[1]);
-        OfflinePlayer playerName = Bukkit.getOfflinePlayer(args[2]);
-        if (!leaderboardType.equalsIgnoreCase("caps") || leaderboardType.equalsIgnoreCase("box")) {
-            Messages.sendBrute(sender, "<red>Usage: <leaderboard_type> must be caps or box");
-            Messages.sendBrute(sender, "<red>Usage: /leaderboardrewards <leaderboard_type> <leaderboard_rank> <player_name>");
+        int leaderboardRank;
+        String playerArg = args[2];
+
+        List<String> validTypes = getLeaderboardTypes();
+        if (!validTypes.contains(leaderboardType.toLowerCase())) {
+            Messages.sendBrute(sender, "<red>Type de classement invalide. Types disponibles: " + String.join(", ", validTypes));
             return true;
         }
-            try {
-                boolean success = LeaderBoardRewardsManager.GiveRewards(leaderboardType, leaderboardRank, playerName);
-                if (success) {
 
-                    Map<String, String> replacements = new HashMap<>();
-                    replacements.put("%leaderboard_type%", leaderboardType.toUpperCase());
-                    replacements.put("%leaderboard_rank%", String.valueOf(leaderboardRank));
-
-                    Messages.LEADERBOARD_SUCCESS.sendReplace(playerName.getPlayer(), replacements);
-                } else {
-                    Messages.ERROR_COMMAND.send(sender);
-                }
-            } catch (Exception e) {
-                Bukkit.getLogger().severe(e.getMessage());
+        try {
+            leaderboardRank = Integer.parseInt(args[1]);
+            if (leaderboardRank < 1 || leaderboardRank > 10) {
+                Messages.sendBrute(sender, "<red>Le rang doit être entre 1 et 10");
+                return true;
             }
-        return true;
+        } catch (NumberFormatException e) {
+            Messages.sendBrute(sender, "<red>Le rang doit être un nombre");
+            return true;
+        }
 
+        try {
+            OfflinePlayer targetPlayer = Bukkit.getOfflinePlayer(playerArg);
+
+            if (!targetPlayer.hasPlayedBefore() && !targetPlayer.isOnline()) {
+                Messages.sendBrute(sender, "<red>Le joueur <white>" + playerArg + "</white> n'existe pas");
+                return true;
+            }
+
+            boolean success = LeaderBoardRewardsManager.GiveRewards(leaderboardType, leaderboardRank, targetPlayer);
+            if (success) {
+                Map<String, String> replacements = new HashMap<>();
+                replacements.put("%leaderboard_type%", leaderboardType.toUpperCase());
+                replacements.put("%leaderboard_rank%", String.valueOf(leaderboardRank));
+
+                if (targetPlayer.isOnline()) {
+                    Messages.LEADERBOARD_SUCCESS.sendReplace(targetPlayer.getPlayer(), replacements);
+                }
+                Messages.sendBrute(sender, "<green>Récompenses distribuées à " + targetPlayer.getName());
+            } else {
+                Messages.ERROR_COMMAND.send(sender);
+            }
+        } catch (Exception e) {
+            Bukkit.getLogger().severe(e.getMessage());
+            Messages.sendBrute(sender, "<red>Une erreur est survenue");
+        }
+        return true;
     }
 
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         List<String> tempArgs = new ArrayList<>();
-        switch (args.length) {
-            case 1:
-                tempArgs.addAll(List.of("caps", "box"));
-                break;
-            case 2:
-                tempArgs.addAll(List.of("all", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"));
-                break;
-            case 3:
-                for (Player player : Bukkit.getOnlinePlayers()) {
-                    if (player.getName().toLowerCase().startsWith(args[args.length - 1].toLowerCase())) {
-                        tempArgs.add(player.getName());
-                    }
-                }
-                break;
-            default:
-                return List.of();
+
+        if (args.length == 1) {
+            tempArgs.addAll(getLeaderboardTypes());
         }
+        else if (args.length == 2) {
+            tempArgs.addAll(List.of("1", "2", "3", "4", "5", "6", "7", "8", "9", "10"));
+        }
+        else if (args.length == 3) {
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                if (player.getName().toLowerCase().startsWith(args[args.length - 1].toLowerCase())) {
+                    tempArgs.add(player.getName());
+                }
+            }
+        }
+
         return tempArgs;
+    }
+
+    private List<String> getLeaderboardTypes() {
+        return new ArrayList<>(Bukkit.getServer().getPluginManager().getPlugin("TrolliUtils")
+                .getConfig().getConfigurationSection("leaderboard-rewards.rewards-commands").getKeys(false));
     }
 }
