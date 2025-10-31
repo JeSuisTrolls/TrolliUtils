@@ -23,7 +23,7 @@ public class LeaderBoardRewardsManager {
 
         for (String rewardCommand : commands) {
             Bukkit.getLogger().info(rewardCommand);
-            String command = rewardCommand.replace("%player_name%", playerName.getName());
+            String command = rewardCommand.replace("%player%", playerName.getName());
 
             if (!command.isEmpty()) {
                 Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command);

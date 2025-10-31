@@ -1,5 +1,6 @@
 package fr.jesuistrolls.commands.player;
 
+import fr.jesuistrolls.TrolliUtils;
 import fr.jesuistrolls.configurations.Messages;
 import fr.jesuistrolls.managers.LeaderBoardRewardsManager;
 import org.bukkit.Bukkit;
@@ -7,6 +8,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabExecutor;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 public class LeaderBoardRewardsCommand implements TabExecutor {
+    FileConfiguration config = TrolliUtils.getInstance().getConfig();
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
         if (!(sender instanceof Player player)) {
@@ -65,7 +68,8 @@ public class LeaderBoardRewardsCommand implements TabExecutor {
             boolean success = LeaderBoardRewardsManager.GiveRewards(leaderboardType, leaderboardRank, targetPlayer);
             if (success) {
                 Map<String, String> replacements = new HashMap<>();
-                replacements.put("%leaderboard_type%", leaderboardType.toUpperCase());
+                String leaderboardName = config.getString("leaderboard-rewards.rewards-commands." + leaderboardType + ".name");
+                replacements.put("%leaderboard_type%", leaderboardName);
                 replacements.put("%leaderboard_rank%", String.valueOf(leaderboardRank));
 
                 if (targetPlayer.isOnline()) {
@@ -105,6 +109,6 @@ public class LeaderBoardRewardsCommand implements TabExecutor {
 
     private List<String> getLeaderboardTypes() {
         return new ArrayList<>(Bukkit.getServer().getPluginManager().getPlugin("TrolliUtils")
-                .getConfig().getConfigurationSection("leaderboard-rewards.rewards-commands").getKeys(false));
+                .   getConfig().getConfigurationSection("leaderboard-rewards.rewards-commands").getKeys(false));
     }
 }

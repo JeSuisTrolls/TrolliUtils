@@ -37,18 +37,18 @@ public class TransfertCommand implements TabExecutor {
         OfflinePlayer oldPlayer = Bukkit.getOfflinePlayer(oldAccount);
         OfflinePlayer newPlayer = Bukkit.getOfflinePlayer(newAccount);
 
-        if (!oldPlayer.hasPlayedBefore() && !oldPlayer.isOnline()) {
-            Messages.sendBrute(sender, "<red>Le compte <white>" + oldAccount + "</white> n'existe pas ou n'a jamais joué sur ce serveur.");
+        if (!oldPlayer.hasPlayedBefore() || !oldPlayer.isConnected()) {
+            Messages.sendBrute(sender, "<dark_red>⚠ <reset><red>Le compte <dark_red>" + oldAccount + "</dark_red> <red>n'existe pas ou n'est pas connecté.");
             return true;
         }
 
-        if (!newPlayer.hasPlayedBefore() && !newPlayer.isOnline()) {
-            Messages.sendBrute(sender, "<red>Le compte <white>" + newAccount + "</white> n'existe pas ou n'a jamais joué sur ce serveur.");
+        if (!newPlayer.hasPlayedBefore() || !newPlayer.isConnected()) {
+            Messages.sendBrute(sender, "<dark_red>⚠ <reset><red>Le compte <dark_red>" + newAccount + "</dark_red> <red>n'existe pas ou n'est pas connecté.");
             return true;
         }
 
         if(newPlayer.equals(oldPlayer)) {
-            Messages.sendBrute(sender, "<red>Vous ne pouvez pas transférer sur le même compte débile.");
+            Messages.sendBrute(sender, "<dark_red>⚠ <reset><red>Vous ne pouvez pas transférer sur le même compte débile.");
             return true;
         }
 
@@ -63,7 +63,7 @@ public class TransfertCommand implements TabExecutor {
             }
         } catch (Exception e) {
             Bukkit.getLogger().severe(e.getMessage());
-            Messages.sendBrute(sender, "<red>Une erreur est survenue lors du transfert.");
+            Messages.sendBrute(sender, "<dark_red>⚠ <reset><red>Une erreur est survenue lors du transfert.");
         }
         return true;
 

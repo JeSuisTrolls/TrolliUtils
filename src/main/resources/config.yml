@@ -6,7 +6,7 @@ below:
     - "SuperiorWorld"
     - "SuperiorWorld_nether"
   enable: true
-  permission: "rivrsessentials.below"
+  permission: "trolliutils.below"
   success: "<dark_green><bold>✔ <reset><green>Vous avez été téléporté à la hauteur minimum."
 
 transfert:
@@ -14,91 +14,193 @@ transfert:
   permission: "trolliutils.transfert"
   success: "<dark_green><bold>✔ <reset><green>Vous avez bien transferé les données."
   success-target: "<dark_green><bold>✔ <reset><green>Vous avez été transféré de toutes vos données."
+  placeholder-to-transfert:
+    gemme:
+      placeholder: "%squidcustomeconomy_balance_gemme%"
+      transfert-commands-old-account:
+        - "squidceco take %old_account% gemme %value%"
+      transfert-commands-new-account:
+        - "squidceco give %new_account% gemme %value%"
+    gemme_compte:
+      placeholder: "%squidcustomeconomy_balance_gemme_compte%"
+      transfert-commands-old-account:
+        - "squidceco take %old_account% gemme_compte %value%"
+      transfert-commands-new-account:
+        - "squidceco give %new_account% gemme_compte %value%"
+    key_fragment:
+      placeholder: "%squidcustomeconomy_balance_key_fragment%"
+      transfert-commands-old-account:
+        - "squidceco take %old_account% key_fragment %value%"
+      transfert-commands-new-account:
+        - "squidceco give %new_account% key_fragment %value%"
+    default:
+      placeholder: "%squidcustomeconomy_balance_default%"
+      transfert-commands-old-account:
+        - "eco take %old_account% %value%"
+      transfert-commands-new-account:
+        - "eco give %new_account% %value%"
+    crane:
+      placeholder: "%beasttokens_tokens%"
+      transfert-commands-old-account:
+        - "cradmin remove %old_account% %value%"
+      transfert-commands-new-account:
+        - "cradmin give %new_account% %value%"
+    hunter:
+      placeholder: "%jobs_user-jlevel_chasseur%"
+      transfert-commands-old-account:
+        - "jobs stats %old_account% Chasseur takelevel %value_int%"
+      transfert-commands-new-account:
+        - "jobs stats %new_account% Chasseur setlevel %value_int%"
+    fishman:
+      placeholder: "%jobs_user-jlevel_pecheur%"
+      transfert-commands-old-account:
+        - "jobs stats %old_account% Pecheur takelevel %value_int%"
+      transfert-commands-new-account:
+        - "jobs stats %new_account% Pecheur setlevel %value_int%"
+    farmer:
+      placeholder: "%jobs_user-jlevel_agriculteur%"
+      transfert-commands-old-account:
+        - "jobs stats %old_account% Agriculteur takelevel %value_int%"
+      transfert-commands-new-account:
+        - "jobs stats %new_account% Agriculteur setlevel %value_int%"
+    explorer:
+      placeholder: "%jobs_user-jlevel_explorateur%"
+      transfert-commands-old-account:
+        - "jobs stats %old_account% Explorateur takelevel %value_int%"
+      transfert-commands-new-account:
+        - "jobs stats %new_account% Explorateur setlevel %value_int%"
+    minor:
+      placeholder: "%jobs_user-jlevel_mineur%"
+      transfert-commands-old-account:
+        - "jobs stats %old_account% Mineur takelevel %value_int%"
+      transfert-commands-new-account:
+        - "jobs stats %new_account% Mineur setlevel %value_int%"
+    lumberjack:
+      placeholder: "%jobs_user-jlevel_bucheron%"
+      transfert-commands-old-account:
+        - "jobs stats %old_account% Bucheron takelevel %value_int%"
+      transfert-commands-new-account:
+        - "jobs stats %new_account% Bucheron setlevel %value_int%"
+    personnage:
+      placeholder: "%playerlevel_level%"
+      transfert-commands-old-account:
+        - "playerlevel xptake %old_account% %value_xp_old%"
+      transfert-commands-new-account:
+        - "playerlevel xpgive %new_account% %value_xp_new%"
+    groups:
+      placeholder: ""
+      transfert-commands-old-account:
+        - "lp user %old_account% clone %new_account%"
+      transfert-commands-new-account:
+        - "lp user %old_account% clear"
 
 leaderboard-rewards:
   enable: true
   permission: "trolliutils.leaderboard-rewards"
-  success: "<dark_green><bold>✔ <reset><green>Vous avez bien reçus les données récompenses de classement. <dark_gray>(%leaderboard_type% #%leaderboard_rank%)"
+  success: "<dark_green><bold>✔ <reset><green>Vous avez bien reçus les données récompenses de classement. <dark_gray>(<gray>%leaderboard_type% #%leaderboard_rank%<dark_gray>)"
   rewards-commands:
-    box:
-      1:
-        commands:
-          - ""
-          - ""
-      2:
-        commands:
-          - ""
-          - ""
-      3:
-        commands:
-          - ""
-          - ""
-      4:
-        commands:
-          - ""
-          - ""
-      5:
-        commands:
-          - ""
-          - ""
-      6:
-        commands:
-          - ""
-          - ""
-      7:
-        commands:
-          - ""
-          - ""
-      8:
-        commands:
-          - ""
-          - ""
-      9:
-        commands:
-          - ""
-          - ""
-      10:
-        commands:
-          - ""
-          - ""
     caps:
+      name: "Capsules"
       1:
         commands:
-          - ""
-          - ""
+          - "squidcustomeco give %player% gemme 3000"
+          - "lp user %player% parent addtemp premium_new 7d accumulate"
+          - "lp user %player% permission settemp tags.capsules true 1mo accumulate"
       2:
         commands:
-          - ""
-          - ""
+          - "squidcustomeco give %player% gemme 1500"
+          - "lp user %player% parent addtemp premium_new 5d accumulate"
       3:
         commands:
-          - ""
-          - ""
+          - "squidcustomeco give %player% gemme 750"
+          - "lp user %player% parent addtemp premium_new 3d accumulate"
       4:
         commands:
-          - ""
-          - ""
+          - "squidcustomeco give %player% gemme 500"
+          - "eco give %player% 2000000"
       5:
         commands:
-          - ""
-          - ""
+          - "eco give %player% 2000000"
       6:
         commands:
-          - ""
-          - ""
+          - "eco give %player% 1500000"
       7:
         commands:
-          - ""
-          - ""
+          - "eco give %player% 1000000"
       8:
         commands:
-          - ""
-          - ""
+          - "eco give %player% 750000"
       9:
         commands:
-          - ""
-          - ""
+          - "eco give %player% 500000"
       10:
         commands:
-          - ""
-          - ""
+          - "eco give %player% 250000"
+    box:
+      name: "Boxes"
+      1:
+        commands:
+          - "squidcustomeco give %player% gemme 3500"
+          - "lp user %player% parent addtemp premium_new 10d accumulate"
+      2:
+        commands:
+          - "squidcustomeco give %player% gemme 2000"
+          - "lp user %player% parent addtemp premium_new 7d accumulate"
+      3:
+        commands:
+          - "squidcustomeco give %player% gemme 1250"
+          - "lp user %player% parent addtemp premium_new 5d accumulate"
+      4:
+        commands:
+          - "squidcustomeco give %player% gemme 750"
+          - "lp user %player% parent addtemp premium_new 3d accumulate"
+      5:
+        commands:
+          - "eco give %player% 2000000"
+      6:
+        commands:
+          - "eco give %player% 1500000"
+      7:
+        commands:
+          - "eco give %player% 1000000"
+      8:
+        commands:
+          - "eco give %player% 750000"
+      9:
+        commands:
+          - "eco give %player% 500000"
+      10:
+        commands:
+          - "eco give %player% 250000"
+    vote:
+      name: "Votes"
+      1:
+        commands:
+          - "squidcustomeco give %player% gemme 4000"
+      2:
+        commands:
+          - "squidcustomeco give %player% gemme 2500"
+      3:
+        commands:
+          - "squidcustomeco give %player% gemme 2000"
+      4:
+        commands:
+          - "squidcustomeco give %player% gemme 1500"
+      5:
+        commands:
+          - "squidcustomeco give %player% gemme 1000"
+      6:
+        commands:
+          - "squidcustomeco give %player% gemme 750"
+      7:
+        commands:
+          - "squidcustomeco give %player% gemme 500"
+      8:
+        commands:
+          - "squidcustomeco give %player% gemme 500"
+      9:
+        commands:
+          - "squidcustomeco give %player% gemme 500"
+      10:
+        commands:
+          - "squidcustomeco give %player% gemme 500"
